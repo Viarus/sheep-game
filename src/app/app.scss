@@ -1,0 +1,11 @@
+@use "shared/styles/variables" as *;
+
+.interface-container {
+  display: flex;
+  padding: $spacer-l;
+  justify-content: center;
+
+  p {
+    margin: 0
+  }
+}
