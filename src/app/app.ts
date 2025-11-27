@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { AppState } from './state/app/app.state';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {}
+export class App {
+  private store = inject(Store);
+  protected fields$ = this.store.select(AppState.getSlices.fields);
+}

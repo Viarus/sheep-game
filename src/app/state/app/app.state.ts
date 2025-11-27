@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { State, Action, Selector, StateContext } from '@ngxs/store';
+import { State, Action, Selector, StateContext, createPropertySelectors } from '@ngxs/store';
 import { AppAction } from './app.actions';
 import { IField } from '../../models/field.model';
 
@@ -15,6 +15,8 @@ export interface AppStateModel {
 })
 @Injectable()
 export class AppState {
+  static getSlices = createPropertySelectors<AppStateModel>(AppState);
+
   @Selector()
   static getState(state: AppStateModel) {
     return state;
