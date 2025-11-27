@@ -21,8 +21,16 @@
       <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
       <label for="new-sheep-field">Field:</label>
       <select id="new-sheep-field" formControlName="field">
+        @for (field of fields$ | async; track field.name) {
+          <option [value]="field.name">
+            {{ field.name }}
+          </option>
+        } @empty {
+          No fields created!
+        }
+      </select>
       <button type="submit" [disabled]="newSheepForm.invalid">create sheep</button>
-      <button type="button" [disabled]="newSheepForm.field === null">random sheep (in selected field)</button>
+      <button type="button" [disabled]="newSheepForm.controls.field === null">random sheep (in selected field)</button>
     </form>
   </div>
 </div>
