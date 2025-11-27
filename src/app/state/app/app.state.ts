@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, Selector, StateContext } from '@ngxs/store';
 import { AppAction } from './app.actions';
-import { ISheep } from '../../models/sheep.model';
+import { IField } from '../../models/field.model';
 
 export interface AppStateModel {
-  fields: ISheep[];
+  fields: IField[];
 }
 
 @State<AppStateModel>({
