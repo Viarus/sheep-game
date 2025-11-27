@@ -1,17 +1,28 @@
 <div class="interface-container">
   <div>
-    <p>Sheep Creator</p>
-    <input placeholder="Magnus Sheeplsen">
-    <select>Gender </select>
-    <input type="checkbox"> Branded
-    <select>field</select>
-    <button>create sheep</button>
-    <button>random sheep (in selected field)</button>
-  </div>
-  <div>
     <p>Field Creator</p>
     <input placeholder="Chess Sheeplayers">
     <button>create field</button>
     <button>create random field</button>
+  </div>
+
+  <div>
+    <form [formGroup]="newSheepForm" (ngSubmit)="onAddSheep()">
+      <p>Sheep Creator</p>
+      <label for="new-sheep-name">Name:</label>
+      <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
+      <label for="new-sheep-gender">Gender:</label>
+      <select id="new-sheep-gender" formControlName="gender">
+        <option [ngValue]="Gender.Male">Male</option>
+        <option [ngValue]="Gender.Female">Female</option>
+        <option [ngValue]="Gender.Lamb">Lamb</option>
+      </select>
+      <label for="new-sheep-is-branded">Branded</label>
+      <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
+      <label for="new-sheep-field">Field:</label>
+      <select id="new-sheep-field" formControlName="field">
+      <button type="submit" [disabled]="newSheepForm.invalid">create sheep</button>
+      <button type="button" [disabled]="newSheepForm.field === null">random sheep (in selected field)</button>
+    </form>
   </div>
 </div>

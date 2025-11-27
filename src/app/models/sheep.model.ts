@@ -1,4 +1,9 @@
-export type Gender = 'male' | 'female' | 'lamb';
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Lamb = 'lamb',
+}
+
 export type ISheep = {
   readonly name: string;
   readonly gender: Gender;
@@ -19,7 +24,7 @@ export abstract class Sheep implements ISheep {
   }
 
   get isAdult() {
-    return this.gender !== 'lamb';
+    return this.gender !== Gender.Lamb;
   }
 
   brand(): void {
