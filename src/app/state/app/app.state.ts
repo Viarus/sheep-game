@@ -7,10 +7,11 @@ import {
   SubmitNewSheepForm,
 } from './app.actions';
 import { Field, IField } from '../../models/field.model';
-import { append, patch } from '@ngxs/store/operators';
+import { append, patch, updateItem } from '@ngxs/store/operators';
 import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
-import { Gender } from '../../models/sheep.model';
+import { Gender, ISheep, Sheep } from '../../models/sheep.model';
 import { generate6RandomDigitsToString } from '../../shared/utilities';
+import { IRowOfSheep, RowOfSheep } from '../../models/row-of-sheep.model';
 
 export const newFieldFormPath = 'app.newFieldForm';
 export const newSheepFormPath = 'app.newSheepForm';
@@ -141,23 +142,198 @@ export class AppState {
       throw new Error('Gender was not provided.');
     }
 
-    const providedField = formModel.field;
-    if (!providedField) {
+    const providedFieldName = formModel.field;
+    if (!providedFieldName) {
       // submit button should be disabled in that case
       ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
       throw new Error('Field name was not provided.');
     }
 
-    // const newSheep = new Sheep(providedName, providedGender, !!formModel.isBranded);
-    // ctx.setState(
-    //   patch<AppStateModel>({
-    //     fields: updateItem<IField>((field) => field.name === providedField, patch<IField>({})),
-    //   }),
-    // );
+    this.insertSheepToField(
+      ctx,
+      new Sheep(providedName, providedGender, !!formModel.isBranded),
+      providedFieldName,
+    );
 
-    ctx.dispatch(new ResetForm({ path: newFieldFormPath }));
+    ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
   }
 
   @Action(AddRandomSheep)
-  addRandomSheep(ctx: StateContext<AppStateModel>) {}
+  addRandomSheep(ctx: StateContext<AppStateModel>) {
+    const randomNumber = Math.floor(Math.random() * 3);
+    let gender: Gender;
+    switch (randomNumber) {
+      case 0:
+        gender = Gender.Male;
+        break;
+      case 1:
+        gender = Gender.Female;
+        break;
+      case 2:
+        gender = Gender.Lamb;
+        break;
+      default:
+        throw new Error('Invalid random number.');
+    }
+
+    const providedFieldName = ctx.getState().newSheepForm.model?.field;
+    if (!providedFieldName) {
+      // submit button should be disabled in that case
+      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      throw new Error('Field name was not provided.');
+    }
+
+    const randomName = `sheep: ${generate6RandomDigitsToString()}`;
+    this.insertSheepToField(ctx, new Sheep(randomName, gender), providedFieldName);
+    ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+  }
+
+  private insertSheepToField(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ): void {
+    const field = ctx.getState().fields.find((field) => field.name === fieldName);
+    if (!field) {
+      throw new Error('Field name is incorrect.');
+    }
+
+    if (sheep.gender === Gender.Lamb) {
+      this.insertLambToFieldLambsArray(ctx, sheep, fieldName);
+      return;
+    }
+
+    if (sheep.gender === Gender.Female) {
+      this.insertFemaleSheepToFieldFemaleSheepArray(ctx, sheep, fieldName);
+    } else {
+      this.insertMaleSheepToFieldMaleSheepArray(ctx, sheep, fieldName);
+    }
+
+    const isNewRowNeeded =
+      (field.rows.length === field.allMaleSheep.length && sheep.gender === Gender.Male) ||
+      (field.rows.length === field.allFemaleSheep.length && sheep.gender === Gender.Female);
+
+    if (isNewRowNeeded) {
+      this.appendNewRowToField(ctx, new RowOfSheep(sheep), fieldName);
+      return;
+    }
+
+    if (sheep.gender === Gender.Male) {
+      this.insertMaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
+    } else {
+      this.insertFemaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
+    }
+  }
+
+  private insertLambToFieldLambsArray(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ) {
+    if (sheep.gender !== Gender.Lamb) {
+      throw new Error('Sheep gender is incorrect.');
+    }
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({ lambs: append<ISheep>([sheep]) }),
+        ),
+      }),
+    );
+  }
+
+  private insertFemaleSheepToFieldFemaleSheepArray(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ) {
+    if (sheep.gender !== Gender.Female) {
+      throw new Error('Sheep gender is incorrect.');
+    }
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({ allFemaleSheep: append<ISheep>([sheep]) }),
+        ),
+      }),
+    );
+  }
+
+  private insertMaleSheepToFieldMaleSheepArray(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ) {
+    if (sheep.gender !== Gender.Male) {
+      throw new Error('Sheep gender is incorrect.');
+    }
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({ allMaleSheep: append<ISheep>([sheep]) }),
+        ),
+      }),
+    );
+  }
+
+  private appendNewRowToField(
+    ctx: StateContext<AppStateModel>,
+    newRow: RowOfSheep,
+    fieldName: string,
+  ) {
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({ rows: append<IRowOfSheep>([newRow]) }),
+        ),
+      }),
+    );
+  }
+
+  private insertMaleSheepToFirstAvailableExistingRowInField(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ) {
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({
+            rows: updateItem<IRowOfSheep>(
+              (r) => r.maleSheep === undefined,
+              patch<IRowOfSheep>({ maleSheep: sheep }),
+            ),
+          }),
+        ),
+      }),
+    );
+  }
+
+  private insertFemaleSheepToFirstAvailableExistingRowInField(
+    ctx: StateContext<AppStateModel>,
+    sheep: ISheep,
+    fieldName: string,
+  ) {
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({
+            rows: updateItem<IRowOfSheep>(
+              (r) => r.femaleSheep === undefined,
+              patch<IRowOfSheep>({ femaleSheep: sheep }),
+            ),
+          }),
+        ),
+      }),
+    );
+  }
 }

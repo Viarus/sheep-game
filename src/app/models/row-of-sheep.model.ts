@@ -1,43 +1,40 @@
-import { Sheep } from './sheep.model';
+import { Gender, ISheep } from './sheep.model';
 
 export type IRowOfSheep = {
-  femaleSheep: Sheep | undefined;
-  maleSheep: Sheep | undefined;
+  femaleSheep: ISheep | undefined;
+  maleSheep: ISheep | undefined;
   isMatingNow: boolean;
   didMatingProcessOccurRecently: boolean;
 };
 
 export class RowOfSheep implements IRowOfSheep {
-  private _femaleSheep: Sheep | undefined;
-  private _maleSheep: Sheep | undefined;
-  isMatingNow: boolean;
+  private _femaleSheep: ISheep | undefined;
+  private _maleSheep: ISheep | undefined;
+  isMatingNow: boolean = false;
   didMatingProcessOccurRecently = false;
 
-  constructor(
-    femaleSheep: Sheep | undefined,
-    maleSheep: Sheep | undefined,
-    isMatingNow: boolean = false,
-    didMatingProcessOccurRecently: boolean = false,
-  ) {
-    this._femaleSheep = femaleSheep;
-    this._maleSheep = maleSheep;
-    this.isMatingNow = isMatingNow;
-    this.didMatingProcessOccurRecently = didMatingProcessOccurRecently;
+  constructor(sheep: ISheep) {
+    this.addSheep(sheep);
   }
 
-  addFemaleSheep(sheep: Sheep) {
-    this._femaleSheep = sheep;
-  }
+  addSheep(sheep: ISheep) {
+    if (!!this._femaleSheep && this._maleSheep) {
+      throw new Error('Row is full!');
+    }
 
-  addMaleSheep(sheep: Sheep) {
+    if (sheep.gender === Gender.Female) {
+      this._femaleSheep = sheep;
+      return;
+    }
+
     this._maleSheep = sheep;
   }
 
-  get femaleSheep(): Sheep | undefined {
+  get femaleSheep(): ISheep | undefined {
     return this._femaleSheep;
   }
 
-  get maleSheep(): Sheep | undefined {
+  get maleSheep(): ISheep | undefined {
     return this._maleSheep;
   }
 
