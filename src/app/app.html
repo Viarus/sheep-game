@@ -1,13 +1,15 @@
 <div class="interface-container">
   <div>
-    <p>Field Creator</p>
-    <input placeholder="Chess Sheeplayers">
-    <button>create field</button>
-    <button>create random field</button>
+    <form [formGroup]="newFieldForm" [ngxsForm]="newFieldFormPath" (ngSubmit)="onAddField()">
+      <p>Field Creator</p>
+      <input id="new-field-name" type="text" formControlName="name" placeholder="Chess Sheeplayers"/>
+      <button type="submit" [disabled]="newFieldForm.invalid">create field</button>
+      <button type="button" (click)="onCreateRandomField()">create random field</button>
+    </form>
   </div>
 
   <div>
-    <form [formGroup]="newSheepForm" (ngSubmit)="onAddSheep()">
+    <form [formGroup]="newSheepForm" [ngxsForm]="newSheepFormPath" (ngSubmit)="onAddSheep()">
       <p>Sheep Creator</p>
       <label for="new-sheep-name">Name:</label>
       <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
@@ -32,7 +34,9 @@
         }
       </select>
       <button type="submit" [disabled]="newSheepForm.invalid">create sheep</button>
-      <button type="button" [disabled]="newSheepForm.controls.field === null">random sheep (in selected field)</button>
+      <button type="button" [disabled]="newSheepForm.controls.field === null" (click)="onAddRandomSheep()">
+        random sheep (in selected field)
+      </button>
     </form>
   </div>
 </div>
