@@ -5,7 +5,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Gender } from './models/sheep.model';
 import { AsyncPipe } from '@angular/common';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
-import { SubmitNewFieldForm } from './state/app/app.actions';
+import {
+  AddRandomField,
+  AddRandomSheep,
+  SubmitNewFieldForm,
+  SubmitNewSheepForm,
+} from './state/app/app.actions';
 
 export type newFieldForm = FormGroup<{
   name: FormControl<string | null>;
@@ -39,20 +44,20 @@ export class App {
     name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
   });
 
-  protected onAddSheep(): void {
-    console.log('Adding a new sheep');
-  }
-
-  protected onAddRandomSheep(): void {
-    console.log('Adding a new random sheep');
-  }
-
   protected onAddField(): void {
     this.store.dispatch(new SubmitNewFieldForm());
   }
 
-  protected onCreateRandomField() {
-    console.log('Adding a new random field');
+  protected onAddRandomField() {
+    this.store.dispatch(new AddRandomField());
+  }
+
+  protected onAddSheep(): void {
+    this.store.dispatch(new SubmitNewSheepForm());
+  }
+
+  protected onAddRandomSheep(): void {
+    this.store.dispatch(new AddRandomSheep());
   }
 
   protected readonly newFieldFormPath = newFieldFormPath;

@@ -12,12 +12,12 @@ export type ISheep = {
   brand(): void;
 };
 
-export abstract class Sheep implements ISheep {
+export class Sheep implements ISheep {
   private _isBranded: boolean;
   readonly name: string;
   readonly gender: Gender;
 
-  protected constructor(name: string, gender: Gender, isBranded: boolean = false) {
+  constructor(name: string, gender: Gender, isBranded: boolean = false) {
     this.name = name;
     this.gender = gender;
     this._isBranded = isBranded;

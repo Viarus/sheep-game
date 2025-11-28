@@ -12,6 +12,7 @@ import { withNgxsFormPlugin } from '@ngxs/form-plugin';
 import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { withNgxsRouterPlugin } from '@ngxs/router-plugin';
 import { provideStore } from '@ngxs/store';
+import { AppState } from './state/app/app.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,11 +21,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideStore(
-      [],
+      [AppState],
       withNgxsReduxDevtoolsPlugin(),
       withNgxsFormPlugin(),
       withNgxsRouterPlugin(),
-      withNgxsLoggerPlugin(),
+      withNgxsLoggerPlugin({ disabled: true }),
     ),
   ],
 };
