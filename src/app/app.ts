@@ -11,6 +11,7 @@ import {
   SubmitNewFieldForm,
   SubmitNewSheepForm,
 } from './state/app/app.actions';
+import { MatButtonModule } from '@angular/material/button';
 
 export type newFieldForm = FormGroup<{
   name: FormControl<string | null>;
@@ -25,7 +26,7 @@ export type newSheepForm = FormGroup<{
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective],
+  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

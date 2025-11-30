@@ -1,3 +1,7 @@
+// COLOURS
+$not-white: #f5f5f7;
+$dark-orange: #FCE7B3;
+
 // SPACING
 $spacer-s: .5rem;
 $spacer-m: 1rem;
@@ -5,13 +9,18 @@ $spacer-l: 2rem;
 $spacer-xl: 3rem;
 
 // FONTS
+$typography: Roboto, "Helvetica Neue", sans-serif;
 $base-font-size: 16px;
 $base-line-height: 1.4;
 $base-font-colour: black;
 
 //$font-size-xs: .6rem;
-//$font-size-s: 1.3rem;
-//$font-size-m: 1.6rem;
+$font-size-s: 1rem;
+$font-size-m: 1.3rem;
 //$font-size-l: 2rem;
 //$font-size-xl: 2.5rem;
 //$font-size-xxl: 3rem;
+
+// OTHER
+$border-radius: .4rem;
+$interface-element-height: 2rem;

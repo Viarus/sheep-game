@@ -1,41 +1,48 @@
 <div class="interface-container">
-  <div>
-    <form [formGroup]="newFieldForm" [ngxsForm]="newFieldFormPath" (ngSubmit)="onAddField()">
-      <p>Field Creator</p>
+  <form [formGroup]="newFieldForm" [ngxsForm]="newFieldFormPath" (ngSubmit)="onAddField()">
+    <p>Field Creator</p>
+    <div class="field-creator">
       <input id="new-field-name" type="text" formControlName="name" placeholder="Chess Sheeplayers"/>
-      <button type="submit" [disabled]="newFieldForm.invalid">add field</button>
-      <button type="button" (click)="onAddRandomField()">add random field</button>
-    </form>
-  </div>
-  <div>
-    <form [formGroup]="newSheepForm" [ngxsForm]="newSheepFormPath" (ngSubmit)="onAddSheep()">
-      <p>Sheep Creator</p>
-      <label for="new-sheep-name">Name:</label>
-      <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
-      <label for="new-sheep-gender">Gender:</label>
-      <select id="new-sheep-gender" formControlName="gender">
-        <option [ngValue]="Gender.Male">Male</option>
-        <option [ngValue]="Gender.Female">Female</option>
-        <option [ngValue]="Gender.Lamb">Lamb</option>
-      </select>
-      <label for="new-sheep-is-branded">Branded</label>
-      <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
-      <label for="new-sheep-field">Field:</label>
-      <select id="new-sheep-field" formControlName="field">
-        @for (field of fields$ | async; track field.name) {
-          <option [value]="field.name">
-            {{ field.name }}
-          </option>
-        } @empty {
-          <option [value]="null">
-            No fields added!
-          </option>
-        }
-      </select>
-      <button type="submit" [disabled]="newSheepForm.invalid">add sheep</button>
-      <button type="button" [disabled]="newSheepForm.controls.field === null" (click)="onAddRandomSheep()">
-        random sheep (in selected field)
-      </button>
-    </form>
-  </div>
+      <button matButton="tonal" type="submit" [disabled]="newFieldForm.invalid">Add field</button>
+      <button matButton="tonal" type="button" (click)="onAddRandomField()">Add random field</button>
+    </div>
+  </form>
+  <form [formGroup]="newSheepForm" [ngxsForm]="newSheepFormPath" (ngSubmit)="onAddSheep()">
+    <p>Sheep Creator</p>
+    <div class="sheep-creator">
+      <div>
+        <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
+        <div>
+          <label for="new-sheep-gender">Gender:</label>
+          <select id="new-sheep-gender" formControlName="gender">
+            <option [ngValue]="Gender.Male">Male</option>
+            <option [ngValue]="Gender.Female">Female</option>
+            <option [ngValue]="Gender.Lamb">Lamb</option>
+          </select>
+        </div>
+        <div>
+          <label for="new-sheep-is-branded">Branded:</label>
+          <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
+        </div>
+      </div>
+      <div>
+        <select id="new-sheep-field" formControlName="field">
+          @for (field of fields$ | async; track field.name) {
+            <option [value]="field.name">
+              {{ field.name }}
+            </option>
+          } @empty {
+            <option [value]="null">
+              No fields added!
+            </option>
+          }
+        </select>
+        <button matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add sheep</button>
+        <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field === null"
+                (click)="onAddRandomSheep()">
+          Random sheep (in selected field)
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

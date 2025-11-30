@@ -1,11 +1,60 @@
 @use "shared/styles/variables" as *;
 
+@mixin interface-flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $spacer-s;
+}
+
+p {
+  margin-bottom: $spacer-s;
+}
+
 .interface-container {
   display: flex;
-  padding: $spacer-l;
   justify-content: center;
+  padding: $spacer-l;
+  background-color: $dark-orange;
+  box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.40);
 
-  p {
-    margin: 0
+  > * {
+    padding: $spacer-l;
+  }
+
+  > :first-child {
+    background-color: #BBDEFB;
+  }
+
+  > :last-child {
+    background-color: #C8E6C9;
+  }
+
+  .field-creator {
+    @include interface-flex-column;
+  }
+
+  .sheep-creator {
+    display: flex;
+    gap: $spacer-l;
+
+    > div {
+      @include interface-flex-column;
+
+      > * {
+        display: flex;
+        height: $interface-element-height;
+        align-items: center;
+        gap: $spacer-s;
+
+        > label {
+          width: 4rem;
+        }
+
+        > select {
+          flex-grow: 1;
+        }
+      }
+    }
   }
 }
