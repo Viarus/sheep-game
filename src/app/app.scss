@@ -3,7 +3,6 @@
 @mixin interface-flex-column {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: $spacer-s;
 }
 
@@ -18,25 +17,40 @@ p {
   background-color: $dark-orange;
   box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.40);
 
+  @media (max-width: $media-l) {
+    flex-direction: column;
+  }
+
   > * {
     padding: $spacer-l;
   }
 
   > :first-child {
-    background-color: #BBDEFB;
+    background-color: $light-blue;
   }
 
   > :last-child {
-    background-color: #C8E6C9;
+    background-color: $light-green;
   }
 
   .field-creator {
     @include interface-flex-column;
+
+    @media (max-width: $media-l) {
+      input, button {
+        margin: 0 5rem;
+        min-width: 15rem;
+      }
+    }
   }
 
   .sheep-creator {
     display: flex;
     gap: $spacer-l;
+
+    @media (max-width: $media-l) {
+      justify-content: space-between;
+    }
 
     > div {
       @include interface-flex-column;
