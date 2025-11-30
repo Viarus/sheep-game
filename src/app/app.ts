@@ -34,6 +34,8 @@ export class App {
   private readonly store = inject(Store);
   protected readonly Gender = Gender;
   protected readonly fields$ = this.store.select(AppState.getSlices.fields);
+  protected readonly newFieldFormPath = newFieldFormPath;
+  protected readonly newSheepFormPath = newSheepFormPath;
   protected readonly newSheepForm: newSheepForm = new FormGroup({
     name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
     gender: new FormControl<Gender | null>(Gender.Male, [Validators.required]),
@@ -60,7 +62,4 @@ export class App {
   protected onAddRandomSheep(): void {
     this.store.dispatch(new AddRandomSheep());
   }
-
-  protected readonly newFieldFormPath = newFieldFormPath;
-  protected readonly newSheepFormPath = newSheepFormPath;
 }
