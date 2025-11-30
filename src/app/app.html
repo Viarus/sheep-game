@@ -42,7 +42,7 @@
           </select>
           <div class="button-flex">
             <button matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add</button>
-            <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field === null"
+            <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field.value === null"
                     (click)="onAddRandomSheep()">Random
             </button>
           </div>

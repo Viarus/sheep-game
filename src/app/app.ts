@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { AppState, newFieldFormPath, newSheepFormPath } from './state/app/app.state';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Gender } from './models/sheep.model';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
 import {
   AddRandomField,
@@ -26,7 +26,7 @@ export type newSheepForm = FormGroup<{
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule],
+  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule, JsonPipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -40,6 +40,10 @@ export class App {
     isBranded: new FormControl<boolean | null>(false),
     field: new FormControl<string | null>(null, [Validators.required]),
   });
+
+  constructor() {
+    this.newSheepForm.valueChanges.subscribe((v) => console.log(v.field));
+  }
 
   protected readonly newFieldForm: newFieldForm = new FormGroup({
     name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
