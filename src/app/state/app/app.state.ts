@@ -124,28 +124,28 @@ export class AppState {
     const formModel = ctx.getState().newSheepForm.model;
     if (!formModel) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      this.resetFormSheepName(ctx);
       throw new Error('Form model was not provided.');
     }
 
     const providedName = formModel.name?.trim();
     if (!providedName) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      this.resetFormSheepName(ctx);
       throw new Error('Sheep name was not provided.');
     }
 
     const providedGender = formModel.gender;
     if (!providedGender) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      this.resetFormSheepName(ctx);
       throw new Error('Gender was not provided.');
     }
 
     const providedFieldName = formModel.field;
     if (!providedFieldName) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      this.resetFormSheepName(ctx);
       throw new Error('Field name was not provided.');
     }
 
@@ -155,7 +155,7 @@ export class AppState {
       providedFieldName,
     );
 
-    ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+    this.resetFormSheepName(ctx);
   }
 
   @Action(AddRandomSheep)
@@ -179,13 +179,13 @@ export class AppState {
     const providedFieldName = ctx.getState().newSheepForm.model?.field;
     if (!providedFieldName) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+      this.resetFormSheepName(ctx);
       throw new Error('Field name was not provided.');
     }
 
     const randomName = `sheep: ${generate6RandomDigitsToString()}`;
     this.insertSheepToField(ctx, new Sheep(randomName, gender), providedFieldName);
-    ctx.dispatch(new ResetForm({ path: newSheepFormPath }));
+    this.resetFormSheepName(ctx);
   }
 
   private insertSheepToField(
@@ -334,6 +334,12 @@ export class AppState {
           }),
         ),
       }),
+    );
+  }
+
+  private resetFormSheepName(ctx: StateContext<AppStateModel>) {
+    ctx.dispatch(
+      new UpdateFormValue({ value: null, path: newSheepFormPath, propertyPath: 'name' }),
     );
   }
 }
