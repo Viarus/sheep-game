@@ -1,13 +1,13 @@
 @use "shared/styles/variables" as *;
 
-@mixin interface-flex-column {
+@mixin flex-column {
   display: flex;
   flex-direction: column;
   gap: $spacer-s;
 }
 
-p {
-  margin-bottom: $spacer-s;
+@mixin grow-evenly {
+  flex: 1 1 0;
 }
 
 .interface-container {
@@ -15,7 +15,7 @@ p {
   justify-content: center;
   padding: $spacer-l;
   background-color: $dark-orange;
-  box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.40);
+  //box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.40);
 
   @media (max-width: $media-l) {
     flex-direction: column;
@@ -40,7 +40,7 @@ p {
 }
 
 .field-creator {
-  @include interface-flex-column;
+  @include flex-column;
 
   @media (max-width: $media-l) {
     padding: 0 $spacer-l;
@@ -52,15 +52,15 @@ p {
 }
 
 .sheep-creator {
-  justify-content: center;
   display: flex;
+  justify-content: center;
   gap: $spacer-l;
 
   @media (max-width: $media-l) {
     padding: 0 $spacer-l;
 
     > * {
-      flex: 1 1 0;
+      @include grow-evenly;
     }
   }
 
@@ -70,7 +70,7 @@ p {
   }
 
   > div {
-    @include interface-flex-column;
+    @include flex-column;
   }
 }
 
@@ -82,7 +82,7 @@ p {
     justify-content: center;
 
     > * {
-      flex: 1 1 0;
+      @include grow-evenly;
     }
   }
 
@@ -93,11 +93,11 @@ p {
 
 .sheep-details {
   display: flex;
-  height: $interface-element-height;
   align-items: center;
   gap: $spacer-s;
+  height: $interface-element-height;
 
   > select {
-    flex: 1 1 0;
+    @include grow-evenly;
   }
 }
