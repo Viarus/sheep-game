@@ -41,10 +41,6 @@ export class App {
     field: new FormControl<string | null>(null, [Validators.required]),
   });
 
-  constructor() {
-    this.newSheepForm.valueChanges.subscribe((v) => console.log(v.field));
-  }
-
   protected readonly newFieldForm: newFieldForm = new FormGroup({
     name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
   });
