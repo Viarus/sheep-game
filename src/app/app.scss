@@ -19,10 +19,15 @@ p {
 
   @media (max-width: $media-l) {
     flex-direction: column;
+    padding: $spacer-m $spacer-l;
   }
 
   > * {
-    padding: $spacer-l;
+    padding: $spacer-m $spacer-l;
+
+    @media (max-width: $media-l) {
+      padding: $spacer-s $spacer-l;
+    }
   }
 
   > :first-child {
@@ -32,43 +37,67 @@ p {
   > :last-child {
     background-color: $light-green;
   }
+}
 
-  .field-creator {
-    @include interface-flex-column;
+.field-creator {
+  @include interface-flex-column;
 
-    @media (max-width: $media-l) {
-      input, button {
-        margin: 0 5rem;
-        min-width: 15rem;
-      }
+  @media (max-width: $media-l) {
+    padding: 0 $spacer-l;
+  }
+
+  @media (max-width: $media-m) {
+    padding: 0 $spacer-s;
+  }
+}
+
+.sheep-creator {
+  justify-content: center;
+  display: flex;
+  gap: $spacer-l;
+
+  @media (max-width: $media-l) {
+    padding: 0 $spacer-l;
+
+    > * {
+      flex: 1 1 0;
     }
   }
 
-  .sheep-creator {
-    display: flex;
-    gap: $spacer-l;
+  @media (max-width: $media-m) {
+    flex-direction: column;
+    padding: 0 $spacer-s;
+  }
 
-    @media (max-width: $media-l) {
-      justify-content: space-between;
+  > div {
+    @include interface-flex-column;
+  }
+}
+
+.button-flex {
+  display: flex;
+  gap: $spacer-m;
+
+  @media (max-width: $media-l) {
+    justify-content: center;
+
+    > * {
+      flex: 1 1 0;
     }
+  }
 
-    > div {
-      @include interface-flex-column;
+  @media (max-width: $media-m) {
+    gap: $spacer-s;
+  }
+}
 
-      > * {
-        display: flex;
-        height: $interface-element-height;
-        align-items: center;
-        gap: $spacer-s;
+.sheep-details {
+  display: flex;
+  height: $interface-element-height;
+  align-items: center;
+  gap: $spacer-s;
 
-        > label {
-          width: 4rem;
-        }
-
-        > select {
-          flex-grow: 1;
-        }
-      }
-    }
+  > select {
+    flex: 1 1 0;
   }
 }

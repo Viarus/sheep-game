@@ -4,8 +4,10 @@
       <p>Field Creator</p>
       <div class="field-creator">
         <input id="new-field-name" type="text" formControlName="name" placeholder="Chess Sheeplayers"/>
-        <button matButton="tonal" type="submit" [disabled]="newFieldForm.invalid">Add field</button>
-        <button matButton="tonal" type="button" (click)="onAddRandomField()">Add random field</button>
+        <div class="button-flex">
+          <button matButton="tonal" type="submit" [disabled]="newFieldForm.invalid">Add</button>
+          <button matButton="tonal" type="button" (click)="onAddRandomField()">Random</button>
+        </div>
       </div>
     </form>
   </div>
@@ -15,15 +17,13 @@
       <div class="sheep-creator">
         <div>
           <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
-          <div>
+          <div class="sheep-details">
             <label for="new-sheep-gender">Gender:</label>
             <select id="new-sheep-gender" formControlName="gender">
               <option [ngValue]="Gender.Male">Male</option>
               <option [ngValue]="Gender.Female">Female</option>
               <option [ngValue]="Gender.Lamb">Lamb</option>
             </select>
-          </div>
-          <div>
             <label for="new-sheep-is-branded">Branded:</label>
             <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
           </div>
@@ -40,11 +40,12 @@
               </option>
             }
           </select>
-          <button matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add sheep</button>
-          <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field === null"
-                  (click)="onAddRandomSheep()">
-            Random sheep (in selected field)
-          </button>
+          <div class="button-flex">
+            <button matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add</button>
+            <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field === null"
+                    (click)="onAddRandomSheep()">Random
+            </button>
+          </div>
         </div>
       </div>
     </form>
