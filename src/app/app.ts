@@ -37,14 +37,14 @@ export class App {
   protected readonly newFieldFormPath = NEW_FIELD_FORM_PATH;
   protected readonly newSheepFormPath = NEW_SHEEP_FORM_PATH;
   protected readonly newSheepForm: newSheepForm = new FormGroup({
-    name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
+    name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(25)]),
     gender: new FormControl<Gender | null>(Gender.Male, [Validators.required]),
     isBranded: new FormControl<boolean | null>(false),
     field: new FormControl<string | null>(null, [Validators.required]),
   });
 
   protected readonly newFieldForm: newFieldForm = new FormGroup({
-    name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
+    name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(25)]),
   });
 
   protected onAddField(): void {
