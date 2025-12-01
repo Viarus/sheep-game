@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="3299044945883518927" datatype="html">
+        <source>Field Creator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3249513483374643425" datatype="html">
+        <source>Add</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1102665189929883417" datatype="html">
+        <source>Random</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3315951640929586994" datatype="html">
+        <source>Sheep Creator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6283914624769804238" datatype="html">
+        <source>Gender:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8012344910054029733" datatype="html">
+        <source>Male</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5667840900782067941" datatype="html">
+        <source>Female</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="364310466620364871" datatype="html">
+        <source>Lamb</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6712006077976626256" datatype="html">
+        <source>Branded:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7637129789835512340" datatype="html">
+        <source> No fields added! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3618539641642028209" datatype="html">
+        <source>Random </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6724935144973763847" datatype="html">
+        <source>Rules:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">1,2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4462442523486219514" datatype="html">
+        <source>You need a field to create a sheep.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2934819899407973429" datatype="html">
+        <source>For sheep to mate, you need to place a female and a male sheep in the same row.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4639512466107003441" datatype="html">
+        <source>Mating has a <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>2/3 chance<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> of creating a lamb.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2378531334213041078" datatype="html">
+        <source><x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>Click a sheep to brand it.<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8811089254950471327" datatype="html">
+        <source>Branded sheep will not mate with any other sheep.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2003175735423992250" datatype="html">
+        <source>Lambs cannot be branded.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7702633585555860553" datatype="html">
+        <source>A lamb will randomly become a female or male sheep when it grows up.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4159145980093497816" datatype="html">
+        <source>You can&apos;t have two fields with the same name, but this doesn&apos;t apply to sheep.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6075606030856329434" datatype="html">
+        <source>Mating takes <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>5 seconds<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3841252831154346007" datatype="html">
+        <source>The cooldown between mating attempts is <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>8 seconds<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7952474193139914609" datatype="html">
+        <source>A lamb needs <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>12 seconds<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> to grow up.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6432496083897693263" datatype="html">
+        <source>Don&apos;t leave your browser for too long, because the sheep will take over your CPU and RAM.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules-dialog/rules-dialog.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
