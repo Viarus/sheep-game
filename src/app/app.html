@@ -1,30 +1,30 @@
 <div class="interface-container">
   <div>
     <form [formGroup]="newFieldForm" [ngxsForm]="newFieldFormPath" (ngSubmit)="onAddField()">
-      <p>Field Creator</p>
+      <p i18n>Field Creator</p>
       <div class="field-creator">
         <input id="new-field-name" type="text" formControlName="name" placeholder="Chess Sheeplayers"/>
         <div class="button-flex">
-          <button matButton="tonal" type="submit" [disabled]="newFieldForm.invalid">Add</button>
-          <button matButton="tonal" type="button" (click)="onAddRandomField()">Random</button>
+          <button i18n matButton="tonal" type="submit" [disabled]="newFieldForm.invalid">Add</button>
+          <button i18n matButton="tonal" type="button" (click)="onAddRandomField()">Random</button>
         </div>
       </div>
     </form>
   </div>
   <div>
     <form [formGroup]="newSheepForm" [ngxsForm]="newSheepFormPath" (ngSubmit)="onAddSheep()">
-      <p>Sheep Creator</p>
+      <p i18n>Sheep Creator</p>
       <div class="sheep-creator">
         <div>
           <input id="new-sheep-name" type="text" formControlName="name" placeholder="Magnus Sheeplsen"/>
           <div class="sheep-details">
-            <label for="new-sheep-gender">Gender:</label>
+            <label i18n for="new-sheep-gender">Gender:</label>
             <select id="new-sheep-gender" formControlName="gender">
-              <option [ngValue]="Gender.Male">Male</option>
-              <option [ngValue]="Gender.Female">Female</option>
-              <option [ngValue]="Gender.Lamb">Lamb</option>
+              <option i18n [ngValue]="Gender.Male">Male</option>
+              <option i18n [ngValue]="Gender.Female">Female</option>
+              <option i18n [ngValue]="Gender.Lamb">Lamb</option>
             </select>
-            <label for="new-sheep-is-branded">Branded:</label>
+            <label i18n for="new-sheep-is-branded">Branded:</label>
             <input id="new-sheep-is-branded" type="checkbox" formControlName="isBranded"/>
           </div>
         </div>
@@ -35,14 +35,14 @@
                 {{ field.name }}
               </option>
             } @empty {
-              <option [value]="null">
+              <option [value]="null" i18n>
                 No fields added!
               </option>
             }
           </select>
           <div class="button-flex">
-            <button matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add</button>
-            <button matButton="tonal" type="button" [disabled]="newSheepForm.controls.field.value === null"
+            <button i18n matButton="tonal" type="submit" [disabled]="newSheepForm.invalid">Add</button>
+            <button i18n matButton="tonal" type="button" [disabled]="newSheepForm.controls.field.value === null"
                     (click)="onAddRandomSheep()">Random
             </button>
           </div>
