@@ -218,8 +218,8 @@ export class AppState {
     }
 
     const isNewRowNeeded =
-      (field.rows.length === field.allMaleSheep.length && sheep.gender === Gender.Male) ||
-      (field.rows.length === field.allFemaleSheep.length && sheep.gender === Gender.Female);
+      (field.rows.length === field.maleSheepCount && sheep.gender === Gender.Male) ||
+      (field.rows.length === field.femaleSheepCount && sheep.gender === Gender.Female);
 
     if (isNewRowNeeded) {
       const newRow =
@@ -283,11 +283,19 @@ export class AppState {
       throw new Error('Sheep gender is incorrect.');
     }
 
+    const femaleSheepCount = ctx
+      .getState()
+      .fields.find((field) => field.name === fieldName)?.femaleSheepCount;
+
+    if (femaleSheepCount === undefined) {
+      throw new Error('Female sheep count is undefined.');
+    }
+
     ctx.setState(
       patch<AppStateModel>({
         fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<Field>({ allFemaleSheep: append<Sheep>([sheep]) }),
+          patch<Field>({ femaleSheepCount: femaleSheepCount + 1 }),
         ),
       }),
     );
@@ -302,11 +310,19 @@ export class AppState {
       throw new Error('Sheep gender is incorrect.');
     }
 
+    const maleSheepCount = ctx
+      .getState()
+      .fields.find((field) => field.name === fieldName)?.maleSheepCount;
+
+    if (maleSheepCount === undefined) {
+      throw new Error('Male sheep count is undefined.');
+    }
+
     ctx.setState(
       patch<AppStateModel>({
         fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<Field>({ allMaleSheep: append<Sheep>([sheep]) }),
+          patch<Field>({ maleSheepCount: maleSheepCount + 1 }),
         ),
       }),
     );
