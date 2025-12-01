@@ -1,0 +1,15 @@
+@use "../shared/styles/variables" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $spacer-m;
+  line-height: 1.7rem;
+
+  @media (max-width: $media-l) {
+    font-size: $font-size-xs;
+    line-height: 1.6rem;
+  }
+}
