@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { AppState, newFieldFormPath, newSheepFormPath } from './state/app/app.state';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Gender } from './models/sheep.model';
-import { AsyncPipe, NgStyle } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
 import {
   AddRandomField,
@@ -26,7 +26,7 @@ export type newSheepForm = FormGroup<{
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule, NgStyle],
+  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

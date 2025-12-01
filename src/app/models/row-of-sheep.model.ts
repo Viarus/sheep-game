@@ -1,6 +1,15 @@
-import { Gender, ISheep } from './sheep.model';
+import { ISheep } from './sheep.model';
+import { generate6RandomDigitsToString } from '../shared/utilities';
+
+interface ISheepMatingArgs {
+  femaleSheep?: ISheep;
+  maleSheep?: ISheep;
+  isMatingNow?: boolean;
+  didMatingProcessOccurRecently?: boolean;
+}
 
 export type IRowOfSheep = {
+  id: string;
   femaleSheep: ISheep | undefined;
   maleSheep: ISheep | undefined;
   isMatingNow: boolean;
@@ -8,41 +17,30 @@ export type IRowOfSheep = {
 };
 
 export class RowOfSheep implements IRowOfSheep {
-  private _femaleSheep: ISheep | undefined;
-  private _maleSheep: ISheep | undefined;
-  isMatingNow: boolean = false;
-  didMatingProcessOccurRecently = false;
+  readonly id: string;
+  readonly femaleSheep: ISheep | undefined;
+  readonly maleSheep: ISheep | undefined;
+  readonly isMatingNow: boolean;
+  readonly didMatingProcessOccurRecently: boolean;
 
-  constructor(sheep: ISheep) {
-    this.addSheep(sheep);
-  }
-
-  addSheep(sheep: ISheep) {
-    if (!!this._femaleSheep && this._maleSheep) {
-      throw new Error('Row is full!');
-    }
-
-    if (sheep.gender === Gender.Female) {
-      this._femaleSheep = sheep;
-      return;
-    }
-
-    this._maleSheep = sheep;
-  }
-
-  get femaleSheep(): ISheep | undefined {
-    return this._femaleSheep;
-  }
-
-  get maleSheep(): ISheep | undefined {
-    return this._maleSheep;
+  constructor({
+    femaleSheep,
+    maleSheep,
+    isMatingNow = false,
+    didMatingProcessOccurRecently = false,
+  }: ISheepMatingArgs) {
+    this.id = `row: ${generate6RandomDigitsToString()}`;
+    this.femaleSheep = femaleSheep;
+    this.maleSheep = maleSheep;
+    this.isMatingNow = isMatingNow;
+    this.didMatingProcessOccurRecently = didMatingProcessOccurRecently;
   }
 
   get possibleToMate(): boolean {
     return (
       !this.isMatingNow &&
       !this.didMatingProcessOccurRecently &&
-      [this._maleSheep, this._femaleSheep].every((sheep) => !!sheep && !sheep.isBranded)
+      [this.maleSheep, this.femaleSheep].every((sheep) => !!sheep && !sheep.isBranded)
     );
   }
 }

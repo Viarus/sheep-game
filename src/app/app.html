@@ -55,13 +55,25 @@
   @for (field of fields$ | async; track field.name) {
     <div>
       <h3>{{ field.name }}</h3>
-      @for (row of field.rows; track row.maleSheep) {
-        <div>
-          <div [style.visibility]="row.maleSheep ? 'visible' : 'hidden'"></div>
-          <div></div>
-          <div [style.visibility]="row.femaleSheep ? 'visible' : 'hidden'"></div>
+      @for (row of field.rows; track row.id) {
+        <div class="row-of-sheep">
+          <div [style.visibility]="row.femaleSheep?.name ? 'visible' : 'hidden'">
+            <img src="/assets/sheep-icons/sheep-female.png"
+                 alt="Sheep female">
+          </div>
+          <div>HEART</div>
+          <div [style.visibility]="row.maleSheep?.name ? 'visible' : 'hidden'">
+            <img src="/assets/sheep-icons/sheep-male.png"
+                 alt="Sheep male">
+          </div>
         </div>
       }
+      
+      <div class="lamb-container">
+        @for (lamb of field.lambs; track lamb.id) {
+          <img src="/assets/sheep-icons/sheep-lamb.png" alt="lamb">
+        }
+      </div>
     </div>
   }
 </div>

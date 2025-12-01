@@ -214,7 +214,12 @@ export class AppState {
       (field.rows.length === field.allFemaleSheep.length && sheep.gender === Gender.Female);
 
     if (isNewRowNeeded) {
-      this.appendNewRowToField(ctx, new RowOfSheep(sheep), fieldName);
+      const newRow =
+        sheep.gender === Gender.Female
+          ? new RowOfSheep({ femaleSheep: sheep })
+          : new RowOfSheep({ maleSheep: sheep });
+
+      this.appendNewRowToField(ctx, newRow, fieldName);
       return;
     }
 
@@ -328,7 +333,7 @@ export class AppState {
           (f) => f.name === fieldName,
           patch<IField>({
             rows: updateItem<IRowOfSheep>(
-              (r) => r.femaleSheep === undefined,
+              (r) => !r.femaleSheep,
               patch<IRowOfSheep>({ femaleSheep: sheep }),
             ),
           }),

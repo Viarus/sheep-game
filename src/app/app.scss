@@ -109,21 +109,42 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 22rem;
-    min-height: 30rem;
+    width: 22rem;
+    min-height: 20rem;
     background-color: $light-green;
     border: $spacer-m solid $light-blue;
     margin: $spacer-s;
+  }
+}
 
-    > div {
-      display: flex;
-      width: 100%;
+.row-of-sheep {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 
-      > div {
-        @include grow-evenly;
-        text-align: center;
-        height: $spacer-xl;
-      }
+  > div {
+    @include grow-evenly;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 4rem;
+
+    > img {
+      height: 3rem;
     }
+  }
+}
+
+.lamb-container {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  padding: $spacer-l;
+
+  > img {
+    height: 2rem;
   }
 }

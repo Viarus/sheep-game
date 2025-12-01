@@ -1,3 +1,5 @@
+import { generate6RandomDigitsToString } from '../shared/utilities';
+
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -5,33 +7,22 @@ export enum Gender {
 }
 
 export type ISheep = {
+  readonly id: string;
   readonly name: string;
   readonly gender: Gender;
-  readonly isAdult: boolean;
-  isBranded: boolean;
-  brand(): void;
+  readonly isBranded: boolean;
 };
 
 export class Sheep implements ISheep {
-  private _isBranded: boolean;
+  readonly id: string;
   readonly name: string;
   readonly gender: Gender;
+  readonly isBranded: boolean;
 
   constructor(name: string, gender: Gender, isBranded: boolean = false) {
+    this.id = `${name}: ${generate6RandomDigitsToString()}`;
     this.name = name;
     this.gender = gender;
-    this._isBranded = isBranded;
-  }
-
-  get isAdult() {
-    return this.gender !== Gender.Lamb;
-  }
-
-  brand(): void {
-    this._isBranded = true;
-  }
-
-  get isBranded() {
-    return this._isBranded;
+    this.isBranded = isBranded;
   }
 }
