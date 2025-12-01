@@ -65,6 +65,7 @@
               <img src="/assets/sheep-icons/sheep-female.png"
                    alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
             }
+            <p>{{ row.femaleSheep?.name }}</p>
           </div>
           <div [style.visibility]="row.isMatingNow ? 'visible' : 'hidden'">
             <div class="lds-heart">
@@ -79,6 +80,7 @@
               <img src="/assets/sheep-icons/sheep-male.png"
                    alt="Sheep male" (click)="onBrandSheep(field.name, row.id, row.maleSheep)">
             }
+            <p>{{ row.maleSheep?.name }}</p>
           </div>
         </div>
       }

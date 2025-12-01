@@ -126,13 +126,27 @@
   > div {
     @include grow-evenly;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     height: 4rem;
+    position: relative;
 
     > img {
       height: 3rem;
+    }
+
+    > p {
+      margin: 0;
+      font-size: .5rem;
+      position: absolute;
+      bottom: -.1rem;
+      outline: 1px dodgerblue solid;
+      border-radius: $border-radius;
+      background-color: white;
+      padding: .1rem .3rem;
+      width: 5rem;
     }
   }
 }
