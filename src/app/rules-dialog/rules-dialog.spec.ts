@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Rules } from './rules';
+import { RulesDialog } from './rules-dialog';
 
-describe('Rules', () => {
-  let component: Rules;
-  let fixture: ComponentFixture<Rules>;
+describe('RulesDialog', () => {
+  let component: RulesDialog;
+  let fixture: ComponentFixture<RulesDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Rules]
+      imports: [RulesDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Rules);
+    fixture = TestBed.createComponent(RulesDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

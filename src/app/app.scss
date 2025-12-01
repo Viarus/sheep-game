@@ -163,6 +163,18 @@
   }
 }
 
+.rules-dialog {
+  position: fixed;
+  bottom: $spacer-xl;
+  right: $spacer-xl;
+  height: 3rem;
+  width: 5rem;
+
+  > .mat-icon {
+    margin: 0;
+  }
+}
+
 /*heart*/
 
 .lds-heart {

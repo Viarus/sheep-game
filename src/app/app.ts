@@ -13,6 +13,9 @@ import {
   SubmitNewSheepForm,
 } from './state/app/app.actions';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { RulesDialog } from './rules-dialog/rules-dialog';
 
 export type newFieldForm = FormGroup<{
   name: FormControl<string | null>;
@@ -27,12 +30,13 @@ export type newSheepForm = FormGroup<{
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule],
+  imports: [ReactiveFormsModule, AsyncPipe, NgxsFormDirective, MatButtonModule, MatIconModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
   private readonly store = inject(Store);
+  private readonly dialog = inject(MatDialog);
   protected readonly Gender = Gender;
   protected readonly fields$ = this.store.select(AppState.getSlices.fields);
   protected readonly newFieldFormPath = NEW_FIELD_FORM_PATH;
@@ -70,5 +74,9 @@ export class App {
     }
 
     this.store.dispatch(new BrandSheep(fieldName, rowId, sheep));
+  }
+
+  protected onShowRules() {
+    this.dialog.open(RulesDialog);
   }
 }
