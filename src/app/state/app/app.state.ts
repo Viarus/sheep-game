@@ -224,6 +224,8 @@ export class AppState {
         ),
       }),
     );
+
+    this.setRowMating(ctx, action.fieldName, action.rowId, false);
   }
 
   private addSheepToField(ctx: StateContext<AppStateModel>, sheep: Sheep, fieldName: string): void {
