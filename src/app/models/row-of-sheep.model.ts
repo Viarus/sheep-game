@@ -1,25 +1,17 @@
-import { ISheep } from './sheep.model';
+import { Sheep } from './sheep.model';
 import { generate6RandomDigitsToString } from '../shared/utilities';
 
 interface ISheepMatingArgs {
-  femaleSheep?: ISheep;
-  maleSheep?: ISheep;
+  femaleSheep?: Sheep;
+  maleSheep?: Sheep;
   isMatingNow?: boolean;
   didMatingProcessOccurRecently?: boolean;
 }
 
-export type IRowOfSheep = {
-  id: string;
-  femaleSheep: ISheep | undefined;
-  maleSheep: ISheep | undefined;
-  isMatingNow: boolean;
-  didMatingProcessOccurRecently: boolean;
-};
-
-export class RowOfSheep implements IRowOfSheep {
+export class RowOfSheep {
   readonly id: string;
-  readonly femaleSheep: ISheep | undefined;
-  readonly maleSheep: ISheep | undefined;
+  readonly femaleSheep: Sheep | undefined;
+  readonly maleSheep: Sheep | undefined;
   readonly isMatingNow: boolean;
   readonly didMatingProcessOccurRecently: boolean;
 

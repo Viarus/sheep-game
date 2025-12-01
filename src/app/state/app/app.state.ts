@@ -6,12 +6,12 @@ import {
   SubmitNewFieldForm,
   SubmitNewSheepForm,
 } from './app.actions';
-import { Field, IField } from '../../models/field.model';
+import { Field } from '../../models/field.model';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
-import { Gender, ISheep, Sheep } from '../../models/sheep.model';
+import { Gender, Sheep } from '../../models/sheep.model';
 import { generate6RandomDigitsToString, getRandomBoolean } from '../../shared/utilities';
-import { IRowOfSheep, RowOfSheep } from '../../models/row-of-sheep.model';
+import { RowOfSheep } from '../../models/row-of-sheep.model';
 import { delay, first, Subject } from 'rxjs';
 
 export const NEW_FIELD_FORM_PATH = 'app.newFieldForm';
@@ -32,7 +32,7 @@ export type newSheepFormModel = {
 };
 
 export interface AppStateModel {
-  fields: IField[];
+  fields: Field[];
   newFieldForm: {
     model?: newFieldFormModel;
     dirty: boolean;
@@ -98,7 +98,7 @@ export class AppState {
     const newField = new Field(providedName);
     ctx.setState(
       patch<AppStateModel>({
-        fields: append<IField>([newField]),
+        fields: append<Field>([newField]),
       }),
     );
 
@@ -118,7 +118,7 @@ export class AppState {
     const newField = new Field(newFieldName);
     ctx.setState(
       patch<AppStateModel>({
-        fields: append<IField>([newField]),
+        fields: append<Field>([newField]),
       }),
     );
 
@@ -200,11 +200,7 @@ export class AppState {
     this.resetFormSheepName(ctx);
   }
 
-  private addSheepToField(
-    ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
-    fieldName: string,
-  ): void {
+  private addSheepToField(ctx: StateContext<AppStateModel>, sheep: Sheep, fieldName: string): void {
     const field = ctx.getState().fields.find((field) => field.name === fieldName);
     if (!field) {
       throw new Error('Field name is incorrect.');
@@ -245,16 +241,16 @@ export class AppState {
     this.startMatingProcess(ctx, fieldName, rowId);
   }
 
-  private addLambToField(ctx: StateContext<AppStateModel>, sheep: ISheep, fieldName: string) {
+  private addLambToField(ctx: StateContext<AppStateModel>, sheep: Sheep, fieldName: string) {
     if (sheep.gender !== Gender.Lamb) {
       throw new Error('Sheep gender is incorrect.');
     }
 
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({ lambs: append<ISheep>([sheep]) }),
+          patch<Field>({ lambs: append<Sheep>([sheep]) }),
         ),
       }),
     );
@@ -263,9 +259,9 @@ export class AppState {
     startGrowingProcess$.pipe(delay(TIME_OF_GROWING_LAMB), first()).subscribe(() => {
       ctx.setState(
         patch<AppStateModel>({
-          fields: updateItem<IField>(
+          fields: updateItem<Field>(
             (f) => f.name === fieldName,
-            patch<IField>({ lambs: removeItem<ISheep>((lamb) => lamb.id === sheep.id) }),
+            patch<Field>({ lambs: removeItem<Sheep>((lamb) => lamb.id === sheep.id) }),
           ),
         }),
       );
@@ -280,7 +276,7 @@ export class AppState {
 
   private insertFemaleSheepToFieldFemaleSheepArray(
     ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
+    sheep: Sheep,
     fieldName: string,
   ) {
     if (sheep.gender !== Gender.Female) {
@@ -289,9 +285,9 @@ export class AppState {
 
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({ allFemaleSheep: append<ISheep>([sheep]) }),
+          patch<Field>({ allFemaleSheep: append<Sheep>([sheep]) }),
         ),
       }),
     );
@@ -299,7 +295,7 @@ export class AppState {
 
   private insertMaleSheepToFieldMaleSheepArray(
     ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
+    sheep: Sheep,
     fieldName: string,
   ) {
     if (sheep.gender !== Gender.Male) {
@@ -308,9 +304,9 @@ export class AppState {
 
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({ allMaleSheep: append<ISheep>([sheep]) }),
+          patch<Field>({ allMaleSheep: append<Sheep>([sheep]) }),
         ),
       }),
     );
@@ -323,9 +319,9 @@ export class AppState {
   ) {
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({ rows: append<IRowOfSheep>([newRow]) }),
+          patch<Field>({ rows: append<RowOfSheep>([newRow]) }),
         ),
       }),
     );
@@ -333,7 +329,7 @@ export class AppState {
 
   private insertMaleSheepToFirstAvailableExistingRowInField(
     ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
+    sheep: Sheep,
     fieldName: string,
   ) {
     const rowId = ctx
@@ -347,12 +343,12 @@ export class AppState {
 
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({
-            rows: updateItem<IRowOfSheep>(
+          patch<Field>({
+            rows: updateItem<RowOfSheep>(
               (r) => r.id === rowId,
-              patch<IRowOfSheep>({ maleSheep: sheep }),
+              patch<RowOfSheep>({ maleSheep: sheep }),
             ),
           }),
         ),
@@ -364,7 +360,7 @@ export class AppState {
 
   private insertFemaleSheepToFirstAvailableExistingRowInField(
     ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
+    sheep: Sheep,
     fieldName: string,
   ) {
     const rowId = ctx
@@ -378,12 +374,12 @@ export class AppState {
 
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({
-            rows: updateItem<IRowOfSheep>(
+          patch<Field>({
+            rows: updateItem<RowOfSheep>(
               (r) => !r.femaleSheep,
-              patch<IRowOfSheep>({ femaleSheep: sheep }),
+              patch<RowOfSheep>({ femaleSheep: sheep }),
             ),
           }),
         ),
@@ -455,13 +451,10 @@ export class AppState {
   ) {
     ctx.setState(
       patch<AppStateModel>({
-        fields: updateItem<IField>(
+        fields: updateItem<Field>(
           (f) => f.name === fieldName,
-          patch<IField>({
-            rows: updateItem<IRowOfSheep>(
-              (r) => r.id === rowId,
-              patch<IRowOfSheep>({ isMatingNow }),
-            ),
+          patch<Field>({
+            rows: updateItem<RowOfSheep>((r) => r.id === rowId, patch<RowOfSheep>({ isMatingNow })),
           }),
         ),
       }),

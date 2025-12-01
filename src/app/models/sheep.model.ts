@@ -6,14 +6,7 @@ export enum Gender {
   Lamb = 'lamb',
 }
 
-export type ISheep = {
-  readonly id: string;
-  readonly name: string;
-  readonly gender: Gender;
-  readonly isBranded: boolean;
-};
-
-export class Sheep implements ISheep {
+export class Sheep {
   readonly id: string;
   readonly name: string;
   readonly gender: Gender;
