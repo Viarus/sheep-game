@@ -61,14 +61,18 @@
             <img src="/assets/sheep-icons/sheep-female.png"
                  alt="Sheep female">
           </div>
-          <div>HEART</div>
+          <div>
+            <div class="lds-heart">
+              <div></div>
+            </div>
+          </div>
           <div [style.visibility]="row.maleSheep?.name ? 'visible' : 'hidden'">
             <img src="/assets/sheep-icons/sheep-male.png"
                  alt="Sheep male">
           </div>
         </div>
       }
-      
+
       <div class="lamb-container">
         @for (lamb of field.lambs; track lamb.id) {
           <img src="/assets/sheep-icons/sheep-lamb.png" alt="lamb">
