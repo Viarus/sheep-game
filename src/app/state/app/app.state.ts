@@ -267,7 +267,7 @@ export class AppState {
       );
 
       // The lamb gets a new id when it grows up.
-      const newSheep = new Sheep(sheep.name, getRandomBoolean ? Gender.Male : Gender.Female);
+      const newSheep = new Sheep(sheep.name, getRandomBoolean() ? Gender.Male : Gender.Female);
       this.addSheepToField(ctx, newSheep, fieldName);
     });
 
