@@ -57,7 +57,7 @@
       <h3>{{ field.name }}</h3>
       @for (row of field.rows; track row.id) {
         <div class="row-of-sheep">
-          <div [style.visibility]="row.femaleSheep?.name ? 'visible' : 'hidden'">
+          <div [style.visibility]="row.femaleSheep?.id ? 'visible' : 'hidden'">
             <img src="/assets/sheep-icons/sheep-female.png"
                  alt="Sheep female">
           </div>
@@ -66,7 +66,7 @@
               <div></div>
             </div>
           </div>
-          <div [style.visibility]="row.maleSheep?.name ? 'visible' : 'hidden'">
+          <div [style.visibility]="row.maleSheep?.id ? 'visible' : 'hidden'">
             <img src="/assets/sheep-icons/sheep-male.png"
                  alt="Sheep male">
           </div>
