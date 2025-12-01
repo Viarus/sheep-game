@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { State, Action, Selector, StateContext, createPropertySelectors } from '@ngxs/store';
+import { Action, createPropertySelectors, Selector, State, StateContext } from '@ngxs/store';
 import {
   AddRandomField,
   AddRandomSheep,
@@ -7,10 +7,10 @@ import {
   SubmitNewSheepForm,
 } from './app.actions';
 import { Field, IField } from '../../models/field.model';
-import { append, patch, updateItem } from '@ngxs/store/operators';
+import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
 import { Gender, ISheep, Sheep } from '../../models/sheep.model';
-import { generate6RandomDigitsToString } from '../../shared/utilities';
+import { generate6RandomDigitsToString, getRandomBoolean } from '../../shared/utilities';
 import { IRowOfSheep, RowOfSheep } from '../../models/row-of-sheep.model';
 import { delay, first, Subject } from 'rxjs';
 
@@ -150,7 +150,7 @@ export class AppState {
       throw new Error('Field name was not provided.');
     }
 
-    this.insertSheepToField(
+    this.addSheepToField(
       ctx,
       new Sheep(providedName, providedGender, !!formModel.isBranded),
       providedFieldName,
@@ -185,11 +185,11 @@ export class AppState {
     }
 
     const randomName = `sheep: ${generate6RandomDigitsToString()}`;
-    this.insertSheepToField(ctx, new Sheep(randomName, gender), providedFieldName);
+    this.addSheepToField(ctx, new Sheep(randomName, gender), providedFieldName);
     this.resetFormSheepName(ctx);
   }
 
-  private insertSheepToField(
+  private addSheepToField(
     ctx: StateContext<AppStateModel>,
     sheep: ISheep,
     fieldName: string,
@@ -200,7 +200,7 @@ export class AppState {
     }
 
     if (sheep.gender === Gender.Lamb) {
-      this.insertLambToFieldLambsArray(ctx, sheep, fieldName);
+      this.addLambToField(ctx, sheep, fieldName);
       return;
     }
 
@@ -234,11 +234,7 @@ export class AppState {
     this.startMatingProcess(ctx, fieldName, rowId);
   }
 
-  private insertLambToFieldLambsArray(
-    ctx: StateContext<AppStateModel>,
-    sheep: ISheep,
-    fieldName: string,
-  ) {
+  private addLambToField(ctx: StateContext<AppStateModel>, sheep: ISheep, fieldName: string) {
     if (sheep.gender !== Gender.Lamb) {
       throw new Error('Sheep gender is incorrect.');
     }
@@ -251,6 +247,24 @@ export class AppState {
         ),
       }),
     );
+
+    const startGrowingProcess$ = new Subject<void>();
+    startGrowingProcess$.pipe(delay(12000), first()).subscribe(() => {
+      ctx.setState(
+        patch<AppStateModel>({
+          fields: updateItem<IField>(
+            (f) => f.name === fieldName,
+            patch<IField>({ lambs: removeItem<ISheep>((lamb) => lamb.id === sheep.id) }),
+          ),
+        }),
+      );
+
+      // Lamb is getting a new id on growing up.
+      const newSheep = new Sheep(sheep.name, getRandomBoolean ? Gender.Male : Gender.Female);
+      this.addSheepToField(ctx, newSheep, fieldName);
+    });
+
+    startGrowingProcess$.next();
   }
 
   private insertFemaleSheepToFieldFemaleSheepArray(
@@ -393,19 +407,29 @@ export class AppState {
       return;
     }
 
-    const startMatingCooldownTimer$ = new Subject<void>();
-    startMatingCooldownTimer$.pipe(delay(8000), first()).subscribe(() => {
+    const startMatingCooldownProcess$ = new Subject<void>();
+    startMatingCooldownProcess$.pipe(delay(8000), first()).subscribe(() => {
       this.startMatingProcess(ctx, fieldName, rowId);
     });
 
-    const startMatingTimer$ = new Subject<void>();
-    startMatingTimer$.pipe(delay(5000), first()).subscribe(() => {
+    const startMatingProcess$ = new Subject<void>();
+    startMatingProcess$.pipe(delay(5000), first()).subscribe(() => {
       this.setRowMating(ctx, fieldName, rowId, false);
-      startMatingCooldownTimer$.next();
+      if (row.maleSheep?.isBranded || row.femaleSheep?.isBranded) {
+        return;
+      }
+
+      // 2/3 chances of mating being successful
+      const wasMatingSuccessful = Math.floor(Math.random() * 3) < 2;
+      if (wasMatingSuccessful) {
+        this.addLambToField(ctx, new Sheep('Little Bob', Gender.Lamb), fieldName);
+      }
+
+      startMatingCooldownProcess$.next();
     });
 
     this.setRowMating(ctx, fieldName, rowId, true);
-    startMatingTimer$.next();
+    startMatingProcess$.next();
   }
 
   private setRowMating(
