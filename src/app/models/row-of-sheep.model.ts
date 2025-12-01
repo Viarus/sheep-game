@@ -35,12 +35,4 @@ export class RowOfSheep implements IRowOfSheep {
     this.isMatingNow = isMatingNow;
     this.didMatingProcessOccurRecently = didMatingProcessOccurRecently;
   }
-
-  get possibleToMate(): boolean {
-    return (
-      !this.isMatingNow &&
-      !this.didMatingProcessOccurRecently &&
-      [this.maleSheep, this.femaleSheep].every((sheep) => !!sheep && !sheep.isBranded)
-    );
-  }
 }

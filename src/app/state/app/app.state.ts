@@ -12,6 +12,7 @@ import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
 import { Gender, ISheep, Sheep } from '../../models/sheep.model';
 import { generate6RandomDigitsToString } from '../../shared/utilities';
 import { IRowOfSheep, RowOfSheep } from '../../models/row-of-sheep.model';
+import { delay, first, Subject } from 'rxjs';
 
 export const newFieldFormPath = 'app.newFieldForm';
 export const newSheepFormPath = 'app.newSheepForm';
@@ -391,5 +392,40 @@ export class AppState {
     if (!isPossibleToMate) {
       return;
     }
+
+    const startMatingCooldownTimer$ = new Subject<void>();
+    startMatingCooldownTimer$.pipe(delay(8000), first()).subscribe(() => {
+      this.startMatingProcess(ctx, fieldName, rowId);
+    });
+
+    const startMatingTimer$ = new Subject<void>();
+    startMatingTimer$.pipe(delay(5000), first()).subscribe(() => {
+      this.setRowMating(ctx, fieldName, rowId, false);
+      startMatingCooldownTimer$.next();
+    });
+
+    this.setRowMating(ctx, fieldName, rowId, true);
+    startMatingTimer$.next();
+  }
+
+  private setRowMating(
+    ctx: StateContext<AppStateModel>,
+    fieldName: string,
+    rowId: string,
+    isMatingNow: boolean,
+  ) {
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<IField>(
+          (f) => f.name === fieldName,
+          patch<IField>({
+            rows: updateItem<IRowOfSheep>(
+              (r) => r.id === rowId,
+              patch<IRowOfSheep>({ isMatingNow }),
+            ),
+          }),
+        ),
+      }),
+    );
   }
 }

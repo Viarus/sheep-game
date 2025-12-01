@@ -61,7 +61,7 @@
             <img src="/assets/sheep-icons/sheep-female.png"
                  alt="Sheep female">
           </div>
-          <div>
+          <div [style.visibility]="row.isMatingNow ? 'visible' : 'hidden'">
             <div class="lds-heart">
               <div></div>
             </div>
