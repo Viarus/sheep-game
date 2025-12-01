@@ -58,8 +58,13 @@
       @for (row of field.rows; track row.id) {
         <div class="row-of-sheep">
           <div [style.visibility]="row.femaleSheep?.id ? 'visible' : 'hidden'">
-            <img src="/assets/sheep-icons/sheep-female.png"
-                 alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
+            @if (row.femaleSheep?.isBranded) {
+              <img src="/assets/sheep-icons/sheep-female-branded.png"
+                   alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
+            } @else {
+              <img src="/assets/sheep-icons/sheep-female.png"
+                   alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
+            }
           </div>
           <div [style.visibility]="row.isMatingNow ? 'visible' : 'hidden'">
             <div class="lds-heart">
@@ -67,8 +72,13 @@
             </div>
           </div>
           <div [style.visibility]="row.maleSheep?.id ? 'visible' : 'hidden'">
-            <img src="/assets/sheep-icons/sheep-male.png"
-                 alt="Sheep male" (click)="onBrandSheep(field.name, row.id, row.maleSheep)">
+            @if (row.maleSheep?.isBranded) {
+              <img src="/assets/sheep-icons/sheep-male-branded.png"
+                   alt="Sheep male">
+            } @else {
+              <img src="/assets/sheep-icons/sheep-male.png"
+                   alt="Sheep male" (click)="onBrandSheep(field.name, row.id, row.maleSheep)">
+            }
           </div>
         </div>
       }
