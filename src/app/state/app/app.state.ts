@@ -223,11 +223,14 @@ export class AppState {
       return;
     }
 
+    let rowId: string;
     if (sheep.gender === Gender.Male) {
-      this.insertMaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
+      rowId = this.insertMaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
     } else {
-      this.insertFemaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
+      rowId = this.insertFemaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
     }
+
+    this.startMatingProcess(ctx, fieldName, rowId);
   }
 
   private insertLambToFieldLambsArray(
@@ -307,19 +310,30 @@ export class AppState {
     sheep: ISheep,
     fieldName: string,
   ) {
+    const rowId = ctx
+      .getState()
+      .fields.find((f) => f.name === fieldName)
+      ?.rows.find((r) => r.maleSheep === undefined)?.id;
+
+    if (!rowId) {
+      throw new Error('No empty rows!');
+    }
+
     ctx.setState(
       patch<AppStateModel>({
         fields: updateItem<IField>(
           (f) => f.name === fieldName,
           patch<IField>({
             rows: updateItem<IRowOfSheep>(
-              (r) => r.maleSheep === undefined,
+              (r) => r.id === rowId,
               patch<IRowOfSheep>({ maleSheep: sheep }),
             ),
           }),
         ),
       }),
     );
+
+    return rowId;
   }
 
   private insertFemaleSheepToFirstAvailableExistingRowInField(
@@ -327,6 +341,15 @@ export class AppState {
     sheep: ISheep,
     fieldName: string,
   ) {
+    const rowId = ctx
+      .getState()
+      .fields.find((f) => f.name === fieldName)
+      ?.rows.find((r) => r.femaleSheep === undefined)?.id;
+
+    if (!rowId) {
+      throw new Error('No empty rows!');
+    }
+
     ctx.setState(
       patch<AppStateModel>({
         fields: updateItem<IField>(
@@ -340,11 +363,33 @@ export class AppState {
         ),
       }),
     );
+
+    return rowId;
   }
 
   private resetFormSheepName(ctx: StateContext<AppStateModel>) {
     ctx.dispatch(
       new UpdateFormValue({ value: null, path: newSheepFormPath, propertyPath: 'name' }),
     );
+  }
+
+  private startMatingProcess(ctx: StateContext<AppStateModel>, fieldName: string, rowId: string) {
+    const row = ctx
+      .getState()
+      .fields.find((f) => f.name === fieldName)
+      ?.rows.find((r) => r.id === rowId);
+
+    if (!row) {
+      throw new Error("Row doesn't exist!");
+    }
+
+    const isPossibleToMate =
+      [row.maleSheep, row.femaleSheep].every((sheep) => !!sheep && !sheep.isBranded) &&
+      !row.isMatingNow &&
+      !row.didMatingProcessOccurRecently;
+
+    if (!isPossibleToMate) {
+      return;
+    }
   }
 }
