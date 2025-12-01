@@ -237,11 +237,16 @@ export class AppState {
       return;
     }
 
-    if (sheep.gender === Gender.Female) {
-      this.insertFemaleSheepToFieldFemaleSheepArray(ctx, sheep, fieldName);
-    } else {
-      this.insertMaleSheepToFieldMaleSheepArray(ctx, sheep, fieldName);
-    }
+    const increaseSheepCount =
+      sheep.gender === Gender.Female
+        ? patch<Field>({ femaleSheepCount: field.femaleSheepCount + 1 })
+        : patch<Field>({ maleSheepCount: field.maleSheepCount + 1 });
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<Field>((f) => f.name === fieldName, increaseSheepCount),
+      }),
+    );
 
     const isNewRowNeeded =
       (field.rows.length === field.maleSheepCount && sheep.gender === Gender.Male) ||
@@ -253,18 +258,48 @@ export class AppState {
           ? new RowOfSheep({ femaleSheep: sheep })
           : new RowOfSheep({ maleSheep: sheep });
 
-      this.appendNewRowToField(ctx, newRow, fieldName);
+      ctx.setState(
+        patch<AppStateModel>({
+          fields: updateItem<Field>(
+            (f) => f.name === fieldName,
+            patch<Field>({ rows: append<RowOfSheep>([newRow]) }),
+          ),
+        }),
+      );
+
       return;
     }
 
-    let rowId: string;
-    if (sheep.gender === Gender.Male) {
-      rowId = this.insertMaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
-    } else {
-      rowId = this.insertFemaleSheepToFirstAvailableExistingRowInField(ctx, sheep, fieldName);
+    const rowToPatchId = ctx
+      .getState()
+      .fields.find((f) => f.name === fieldName)
+      ?.rows.find(
+        (r) =>
+          (sheep.gender === Gender.Male && r.maleSheep === undefined) ||
+          (sheep.gender === Gender.Female && r.femaleSheep === undefined),
+      )?.id;
+
+    if (!rowToPatchId) {
+      throw new Error('No empty rows!');
     }
 
-    this.startMatingProcess(ctx, fieldName, rowId);
+    const patchSheep =
+      sheep.gender === Gender.Female
+        ? patch<RowOfSheep>({ femaleSheep: sheep })
+        : patch<RowOfSheep>({ maleSheep: sheep });
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<Field>(
+          (f) => f.name === fieldName,
+          patch<Field>({
+            rows: updateItem<RowOfSheep>((r) => r.id === rowToPatchId, patchSheep),
+          }),
+        ),
+      }),
+    );
+
+    this.startMatingProcess(ctx, fieldName, rowToPatchId);
   }
 
   private addLambToField(ctx: StateContext<AppStateModel>, sheep: Sheep, fieldName: string) {
@@ -298,137 +333,6 @@ export class AppState {
     });
 
     startGrowingProcess$.next();
-  }
-
-  private insertFemaleSheepToFieldFemaleSheepArray(
-    ctx: StateContext<AppStateModel>,
-    sheep: Sheep,
-    fieldName: string,
-  ) {
-    if (sheep.gender !== Gender.Female) {
-      throw new Error('Sheep gender is incorrect.');
-    }
-
-    const femaleSheepCount = ctx
-      .getState()
-      .fields.find((field) => field.name === fieldName)?.femaleSheepCount;
-
-    if (femaleSheepCount === undefined) {
-      throw new Error('Female sheep count is undefined.');
-    }
-
-    ctx.setState(
-      patch<AppStateModel>({
-        fields: updateItem<Field>(
-          (f) => f.name === fieldName,
-          patch<Field>({ femaleSheepCount: femaleSheepCount + 1 }),
-        ),
-      }),
-    );
-  }
-
-  private insertMaleSheepToFieldMaleSheepArray(
-    ctx: StateContext<AppStateModel>,
-    sheep: Sheep,
-    fieldName: string,
-  ) {
-    if (sheep.gender !== Gender.Male) {
-      throw new Error('Sheep gender is incorrect.');
-    }
-
-    const maleSheepCount = ctx
-      .getState()
-      .fields.find((field) => field.name === fieldName)?.maleSheepCount;
-
-    if (maleSheepCount === undefined) {
-      throw new Error('Male sheep count is undefined.');
-    }
-
-    ctx.setState(
-      patch<AppStateModel>({
-        fields: updateItem<Field>(
-          (f) => f.name === fieldName,
-          patch<Field>({ maleSheepCount: maleSheepCount + 1 }),
-        ),
-      }),
-    );
-  }
-
-  private appendNewRowToField(
-    ctx: StateContext<AppStateModel>,
-    newRow: RowOfSheep,
-    fieldName: string,
-  ) {
-    ctx.setState(
-      patch<AppStateModel>({
-        fields: updateItem<Field>(
-          (f) => f.name === fieldName,
-          patch<Field>({ rows: append<RowOfSheep>([newRow]) }),
-        ),
-      }),
-    );
-  }
-
-  private insertMaleSheepToFirstAvailableExistingRowInField(
-    ctx: StateContext<AppStateModel>,
-    sheep: Sheep,
-    fieldName: string,
-  ) {
-    const rowId = ctx
-      .getState()
-      .fields.find((f) => f.name === fieldName)
-      ?.rows.find((r) => r.maleSheep === undefined)?.id;
-
-    if (!rowId) {
-      throw new Error('No empty rows!');
-    }
-
-    ctx.setState(
-      patch<AppStateModel>({
-        fields: updateItem<Field>(
-          (f) => f.name === fieldName,
-          patch<Field>({
-            rows: updateItem<RowOfSheep>(
-              (r) => r.id === rowId,
-              patch<RowOfSheep>({ maleSheep: sheep }),
-            ),
-          }),
-        ),
-      }),
-    );
-
-    return rowId;
-  }
-
-  private insertFemaleSheepToFirstAvailableExistingRowInField(
-    ctx: StateContext<AppStateModel>,
-    sheep: Sheep,
-    fieldName: string,
-  ) {
-    const rowId = ctx
-      .getState()
-      .fields.find((f) => f.name === fieldName)
-      ?.rows.find((r) => r.femaleSheep === undefined)?.id;
-
-    if (!rowId) {
-      throw new Error('No empty rows!');
-    }
-
-    ctx.setState(
-      patch<AppStateModel>({
-        fields: updateItem<Field>(
-          (f) => f.name === fieldName,
-          patch<Field>({
-            rows: updateItem<RowOfSheep>(
-              (r) => !r.femaleSheep,
-              patch<RowOfSheep>({ femaleSheep: sheep }),
-            ),
-          }),
-        ),
-      }),
-    );
-
-    return rowId;
   }
 
   private resetFormSheepName(ctx: StateContext<AppStateModel>) {
