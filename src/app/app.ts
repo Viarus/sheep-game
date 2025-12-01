@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AppState, NEW_FIELD_FORM_PATH, NEW_SHEEP_FORM_PATH } from './state/app/app.state';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Gender } from './models/sheep.model';
+import { Gender, Sheep } from './models/sheep.model';
 import { AsyncPipe } from '@angular/common';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
 import {
   AddRandomField,
   AddRandomSheep,
+  BrandSheep,
   SubmitNewFieldForm,
   SubmitNewSheepForm,
 } from './state/app/app.actions';
@@ -61,5 +62,13 @@ export class App {
 
   protected onAddRandomSheep(): void {
     this.store.dispatch(new AddRandomSheep());
+  }
+
+  protected onBrandSheep(fieldName: string, rowId: string, sheep: Sheep | undefined): void {
+    if (!sheep) {
+      throw new Error('Unable to get the sheep from view.');
+    }
+
+    this.store.dispatch(new BrandSheep(fieldName, rowId, sheep));
   }
 }

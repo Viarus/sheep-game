@@ -3,6 +3,7 @@ import { Action, createPropertySelectors, Selector, State, StateContext } from '
 import {
   AddRandomField,
   AddRandomSheep,
+  BrandSheep,
   SubmitNewFieldForm,
   SubmitNewSheepForm,
 } from './app.actions';
@@ -198,6 +199,31 @@ export class AppState {
     const randomName = `sheep: ${generate6RandomDigitsToString()}`;
     this.addSheepToField(ctx, new Sheep(randomName, gender), providedFieldName);
     this.resetFormSheepName(ctx);
+  }
+
+  @Action(BrandSheep)
+  brandSheep(ctx: StateContext<AppStateModel>, action: BrandSheep) {
+    const patchFemaleSheep = patch<RowOfSheep>({
+      femaleSheep: patch<Sheep>({ isBranded: true }),
+    });
+
+    const patchMaleSheep = patch<RowOfSheep>({
+      maleSheep: patch<Sheep>({ isBranded: true }),
+    });
+
+    ctx.setState(
+      patch<AppStateModel>({
+        fields: updateItem<Field>(
+          (f) => f.name === action.fieldName,
+          patch<Field>({
+            rows: updateItem<RowOfSheep>(
+              (r) => r.id === action.rowId,
+              action.sheep.gender === Gender.Female ? patchFemaleSheep : patchMaleSheep,
+            ),
+          }),
+        ),
+      }),
+    );
   }
 
   private addSheepToField(ctx: StateContext<AppStateModel>, sheep: Sheep, fieldName: string): void {
