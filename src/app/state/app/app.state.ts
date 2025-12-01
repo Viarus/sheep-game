@@ -14,8 +14,11 @@ import { generate6RandomDigitsToString, getRandomBoolean } from '../../shared/ut
 import { IRowOfSheep, RowOfSheep } from '../../models/row-of-sheep.model';
 import { delay, first, Subject } from 'rxjs';
 
-export const newFieldFormPath = 'app.newFieldForm';
-export const newSheepFormPath = 'app.newSheepForm';
+export const NEW_FIELD_FORM_PATH = 'app.newFieldForm';
+export const NEW_SHEEP_FORM_PATH = 'app.newSheepForm';
+const TIME_OF_MATING = 5000;
+const TIME_OF_MATING_COOLDOWN = 8000;
+const TIME_OF_GROWING_LAMB = 12000;
 
 export type newFieldFormModel = {
   name: string | null | undefined;
@@ -83,12 +86,12 @@ export class AppState {
     const providedName = ctx.getState().newFieldForm.model?.name?.trim();
     if (!providedName) {
       // submit button should be disabled in that case
-      ctx.dispatch(new ResetForm({ path: newFieldFormPath }));
+      ctx.dispatch(new ResetForm({ path: NEW_FIELD_FORM_PATH }));
       throw new Error('Field name was not provided.');
     }
 
     if (ctx.getState().fields.some((field) => field.name === providedName)) {
-      ctx.dispatch(new ResetForm({ path: newFieldFormPath }));
+      ctx.dispatch(new ResetForm({ path: NEW_FIELD_FORM_PATH }));
       throw new Error('Field name must be unique');
     }
 
@@ -99,9 +102,13 @@ export class AppState {
       }),
     );
 
-    ctx.dispatch(new ResetForm({ path: newFieldFormPath }));
+    ctx.dispatch(new ResetForm({ path: NEW_FIELD_FORM_PATH }));
     ctx.dispatch(
-      new UpdateFormValue({ value: providedName, path: newSheepFormPath, propertyPath: 'field' }),
+      new UpdateFormValue({
+        value: providedName,
+        path: NEW_SHEEP_FORM_PATH,
+        propertyPath: 'field',
+      }),
     );
   }
 
@@ -116,7 +123,11 @@ export class AppState {
     );
 
     ctx.dispatch(
-      new UpdateFormValue({ value: newFieldName, path: newSheepFormPath, propertyPath: 'field' }),
+      new UpdateFormValue({
+        value: newFieldName,
+        path: NEW_SHEEP_FORM_PATH,
+        propertyPath: 'field',
+      }),
     );
   }
 
@@ -249,7 +260,7 @@ export class AppState {
     );
 
     const startGrowingProcess$ = new Subject<void>();
-    startGrowingProcess$.pipe(delay(12000), first()).subscribe(() => {
+    startGrowingProcess$.pipe(delay(TIME_OF_GROWING_LAMB), first()).subscribe(() => {
       ctx.setState(
         patch<AppStateModel>({
           fields: updateItem<IField>(
@@ -259,7 +270,7 @@ export class AppState {
         }),
       );
 
-      // Lamb is getting a new id on growing up.
+      // The lamb gets a new id when it grows up.
       const newSheep = new Sheep(sheep.name, getRandomBoolean ? Gender.Male : Gender.Female);
       this.addSheepToField(ctx, newSheep, fieldName);
     });
@@ -384,7 +395,7 @@ export class AppState {
 
   private resetFormSheepName(ctx: StateContext<AppStateModel>) {
     ctx.dispatch(
-      new UpdateFormValue({ value: null, path: newSheepFormPath, propertyPath: 'name' }),
+      new UpdateFormValue({ value: null, path: NEW_SHEEP_FORM_PATH, propertyPath: 'name' }),
     );
   }
 
@@ -408,12 +419,12 @@ export class AppState {
     }
 
     const startMatingCooldownProcess$ = new Subject<void>();
-    startMatingCooldownProcess$.pipe(delay(8000), first()).subscribe(() => {
+    startMatingCooldownProcess$.pipe(delay(TIME_OF_MATING_COOLDOWN), first()).subscribe(() => {
       this.startMatingProcess(ctx, fieldName, rowId);
     });
 
     const startMatingProcess$ = new Subject<void>();
-    startMatingProcess$.pipe(delay(5000), first()).subscribe(() => {
+    startMatingProcess$.pipe(delay(TIME_OF_MATING), first()).subscribe(() => {
       this.setRowMating(ctx, fieldName, rowId, false);
       if (row.maleSheep?.isBranded || row.femaleSheep?.isBranded) {
         return;
@@ -422,7 +433,11 @@ export class AppState {
       // 2/3 chances of mating being successful
       const wasMatingSuccessful = Math.floor(Math.random() * 3) < 2;
       if (wasMatingSuccessful) {
-        this.addLambToField(ctx, new Sheep('Little Bob', Gender.Lamb), fieldName);
+        this.addLambToField(
+          ctx,
+          new Sheep(`Little Bob: ${generate6RandomDigitsToString()}`, Gender.Lamb),
+          fieldName,
+        );
       }
 
       startMatingCooldownProcess$.next();

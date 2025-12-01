@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { AppState, newFieldFormPath, newSheepFormPath } from './state/app/app.state';
+import { AppState, NEW_FIELD_FORM_PATH, NEW_SHEEP_FORM_PATH } from './state/app/app.state';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Gender } from './models/sheep.model';
 import { AsyncPipe } from '@angular/common';
@@ -34,8 +34,8 @@ export class App {
   private readonly store = inject(Store);
   protected readonly Gender = Gender;
   protected readonly fields$ = this.store.select(AppState.getSlices.fields);
-  protected readonly newFieldFormPath = newFieldFormPath;
-  protected readonly newSheepFormPath = newSheepFormPath;
+  protected readonly newFieldFormPath = NEW_FIELD_FORM_PATH;
+  protected readonly newSheepFormPath = NEW_SHEEP_FORM_PATH;
   protected readonly newSheepForm: newSheepForm = new FormGroup({
     name: new FormControl<string | null>('', [Validators.required, Validators.maxLength(50)]),
     gender: new FormControl<Gender | null>(Gender.Male, [Validators.required]),
