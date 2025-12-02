@@ -79,4 +79,8 @@ export class App {
   protected onShowRules() {
     this.dialog.open(RulesDialog);
   }
+
+  protected onChangeLanguageDialog() {
+    this.dialog.open(RulesDialog);
+  }
 }
