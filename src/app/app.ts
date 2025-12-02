@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { RulesDialog } from './rules-dialog/rules-dialog';
+import { ChangeLanguageDialog } from './change-language-dialog/change-language-dialog';
 
 export type newFieldForm = FormGroup<{
   name: FormControl<string | null>;
@@ -81,6 +82,6 @@ export class App {
   }
 
   protected onChangeLanguageDialog() {
-    this.dialog.open(RulesDialog);
+    this.dialog.open(ChangeLanguageDialog);
   }
 }

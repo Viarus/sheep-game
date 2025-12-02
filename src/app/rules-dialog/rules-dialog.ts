@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './rules-dialog.html',
   styleUrl: './rules-dialog.scss',
 })
-export class RulesDialog {
-
-}
+export class RulesDialog {}

@@ -10,6 +10,13 @@
   flex: 1 1 0;
 }
 
+@mixin floating-button {
+  position: fixed;
+  height: 3rem;
+  width: 5rem;
+  bottom: $spacer-xl;
+}
+
 .interface-container {
   display: flex;
   justify-content: center;
@@ -164,14 +171,24 @@
 }
 
 .rules-dialog {
-  position: fixed;
-  bottom: $spacer-xl;
+  @include floating-button;
   right: $spacer-xl;
-  height: 3rem;
-  width: 5rem;
 
   > .mat-icon {
     margin: 0;
+  }
+}
+
+.language-dialog {
+  @include floating-button;
+  left: $spacer-xl;
+
+  div {
+    display: flex;
+  }
+
+  img {
+    width: 2rem;
   }
 }
 

@@ -1,0 +1,8 @@
+<form [formGroup]="languageForm" (ngSubmit)="onSubmit()">
+  <select formControlName="language">
+    <option [ngValue]="Language.English">English</option>
+    <option [ngValue]="Language.Polish">Polish</option>
+  </select>
+  <button matButton="tonal" type="button">Cancel</button>
+  <button matButton="tonal" type="submit" [disabled]="languageForm.invalid">Choose</button>
+</form>
