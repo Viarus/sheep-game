@@ -1,0 +1,13 @@
+{
+  "apphosting": {
+    "backendId": "sheep-game-backend",
+    "rootDir": "/",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions"
+    ]
+  }
+}
