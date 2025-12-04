@@ -5,6 +5,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 
 export enum Language {
   English = 'en-US',
@@ -13,7 +14,14 @@ export enum Language {
 
 @Component({
   selector: 'app-change-language-dialog',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatButton],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButton,
+    MatIcon,
+  ],
   templateUrl: './change-language-dialog.html',
   styleUrl: './change-language-dialog.scss',
 })

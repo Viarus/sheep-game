@@ -18,5 +18,9 @@
 
   button {
     margin: 0 $spacer-s;
+
+    .mat-icon {
+      margin: 0;
+    }
   }
 }

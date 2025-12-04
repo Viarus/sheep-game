@@ -7,8 +7,12 @@
       </select>
     </div>
     <div>
-      <button matButton="tonal" type="button" (click)="onCancel()">Cancel</button>
-      <button matButton="tonal" type="submit" [disabled]="languageForm.invalid">Choose</button>
+      <button matButton="tonal" type="button" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button matButton="tonal" type="submit" [disabled]="languageForm.invalid">
+        <mat-icon>check</mat-icon>
+      </button>
     </div>
   </div>
 </form>
