@@ -59,10 +59,10 @@
         <div class="row-of-sheep">
           <div [style.visibility]="row.femaleSheep?.id ? 'visible' : 'hidden'">
             @if (row.femaleSheep?.isBranded) {
-              <img src="/assets/sheep-icons/sheep-female-branded.png"
+              <img src="assets/sheep-icons/sheep-female-branded.png"
                    alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
             } @else {
-              <img src="/assets/sheep-icons/sheep-female.png"
+              <img src="assets/sheep-icons/sheep-female.png"
                    alt="Sheep female" (click)="onBrandSheep(field.name, row.id, row.femaleSheep)">
             }
             <p>{{ row.femaleSheep?.name }}</p>
@@ -74,10 +74,10 @@
           </div>
           <div [style.visibility]="row.maleSheep?.id ? 'visible' : 'hidden'">
             @if (row.maleSheep?.isBranded) {
-              <img src="/assets/sheep-icons/sheep-male-branded.png"
+              <img src="assets/sheep-icons/sheep-male-branded.png"
                    alt="Sheep male">
             } @else {
-              <img src="/assets/sheep-icons/sheep-male.png"
+              <img src="assets/sheep-icons/sheep-male.png"
                    alt="Sheep male" (click)="onBrandSheep(field.name, row.id, row.maleSheep)">
             }
             <p>{{ row.maleSheep?.name }}</p>
@@ -87,7 +87,7 @@
 
       <div class="lamb-container">
         @for (lamb of field.lambs; track lamb.id) {
-          <img src="/assets/sheep-icons/sheep-lamb.png" alt="lamb">
+          <img src="assets/sheep-icons/sheep-lamb.png" alt="lamb">
         }
       </div>
     </div>
@@ -99,7 +99,7 @@
 
 <button class="language-dialog" matButton="tonal" type="button" (click)="onChangeLanguageDialog()">
   <div>
-    <img src="/assets/uk-flag.png"
+    <img src="assets/uk-flag.png"
          alt="flag">
   </div>
 </button>
