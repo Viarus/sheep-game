@@ -13,18 +13,11 @@ export class RowOfSheep {
   readonly femaleSheep: Sheep | undefined;
   readonly maleSheep: Sheep | undefined;
   readonly isMatingNow: boolean;
-  readonly didMatingProcessOccurRecently: boolean;
 
-  constructor({
-    femaleSheep,
-    maleSheep,
-    isMatingNow = false,
-    didMatingProcessOccurRecently = false,
-  }: ISheepMatingArgs) {
+  constructor({ femaleSheep, maleSheep, isMatingNow = false }: ISheepMatingArgs) {
     this.id = `row: ${generate6RandomDigitsToString()}`;
     this.femaleSheep = femaleSheep;
     this.maleSheep = maleSheep;
     this.isMatingNow = isMatingNow;
-    this.didMatingProcessOccurRecently = didMatingProcessOccurRecently;
   }
 }

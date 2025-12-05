@@ -355,8 +355,7 @@ export class AppState {
 
     const isPossibleToMate =
       [row.maleSheep, row.femaleSheep].every((sheep) => !!sheep && !sheep.isBranded) &&
-      !row.isMatingNow &&
-      !row.didMatingProcessOccurRecently;
+      !row.isMatingNow;
 
     if (!isPossibleToMate) {
       return;
