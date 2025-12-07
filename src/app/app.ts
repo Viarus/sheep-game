@@ -38,6 +38,11 @@ export type newSheepForm = FormGroup<{
 export class App {
   private readonly store = inject(Store);
   private readonly dialog = inject(MatDialog);
+  private readonly DIALOG_OPTIONS = {
+    maxHeight: '80vw',
+    maxWidth: '80vw',
+  };
+
   protected readonly Gender = Gender;
   protected readonly fields$ = this.store.select(AppState.getSlices.fields);
   protected readonly newFieldFormPath = NEW_FIELD_FORM_PATH;
@@ -78,10 +83,10 @@ export class App {
   }
 
   protected onShowRules() {
-    this.dialog.open(RulesDialog);
+    this.dialog.open(RulesDialog, this.DIALOG_OPTIONS);
   }
 
   protected onChangeLanguageDialog() {
-    this.dialog.open(ChangeLanguageDialog);
+    this.dialog.open(ChangeLanguageDialog, this.DIALOG_OPTIONS);
   }
 }
