@@ -1,6 +1,6 @@
-# SheepGame
+# Link to application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+`https://sheep-game-backend--sheep-game-31293.europe-west4.hosted.app/en-US/`
 
 ## Development server
 
