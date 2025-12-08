@@ -1,6 +1,6 @@
 # Link to application
 
-`https://sheep-game-backend--sheep-game-31293.europe-west4.hosted.app/en-US/`
+https://sheep-game-backend--sheep-game-31293.europe-west4.hosted.app/en-US/
 
 ## Development server
 
